@@ -41,7 +41,7 @@ p {
     border-radius: 10px;
 }
 #header {
-    background-image: url("Black-plain-desktop-background-wallpaper.jpg");
+    background-color: black;
     background-size: cover;
 }
 #header img {

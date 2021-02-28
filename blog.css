@@ -43,11 +43,13 @@ p {
 #header {
     background-color: black;
     background-size: cover;
+    height: 100%;
+    width: 100%;
 }
 #header img {
     display: block;
-    width: 80px;
-    height: 80px;
+    width: 200px;
+    height: 200px;
     margin: auto;
 }
 #header p {

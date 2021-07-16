@@ -5,7 +5,8 @@ html {
 body {
     font-family: 'Handlee', cursive;
     font-size: 13pt;
-    background-color: #efefef;
+    background: #efefef;
+    background-image: linear-gradient(to bottom , #ffd4af, #ffc477);
     padding: 10px;
     margin: 0;
     opacity: 1;
@@ -17,13 +18,13 @@ body.fade-out {
 }
 h1 {
     font-size: 15pt;
-    color: #20bcd5;
+    color: #000000;
     text-align: center;
     padding: 18px 0 18px 0;
     margin: 0 0 10px 0;
 }
 h1 span {
-    border: 4px dashed #20bcd5;
+    border: 4px dashed #000000;
     padding: 10px;
 }
 p {
@@ -31,25 +32,27 @@ p {
     margin: 0;
 }
 .img-circle {
-    border: 3px solid white;
-    border-radius: 50%;
+    border: 1px solid white;
+    border-radius: 40%;
 }
 .section {
-    background-color: #fff;
+    /*background-image: linear-gradient(to bottom , #FF9F4A, #FF3C83);*/
     padding: 15px;
     margin-bottom: 10px;
     border-radius: 10px;
+    height: 100%;
+    width: 100%;
 }
 #header {
-    background-color: black;
+    background-color: black !important;
     background-size: cover;
     height: 100%;
     width: 100%;
 }
 #header img {
     display: block;
-    width: 200px;
-    height: 200px;
+    width: 20%;
+    height: 30%;
     margin: auto;
 }
 #header p {

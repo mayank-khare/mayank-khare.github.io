@@ -39,8 +39,14 @@
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
-        gtag('config', 'UA-46796924-5');
+        gtag('config', 'UA-46796924-5', {
+            'page_path': window.location.pathname,
+            'anonymize_ip': true
+        });
     </script>
+    
+    <!-- Vercel Analytics for Web Vitals tracking -->
+    <script defer src="https://cdn.vercel-analytics.com/v1/web.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
@@ -1155,8 +1161,93 @@
     </footer>
 
     <script>
-        // Theme Toggle
+        // ===== Analytics Event Tracking =====
+        
+        // Track CTA button clicks
+        document.querySelectorAll('.btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const buttonText = this.textContent.trim();
+                gtag('event', 'button_click', {
+                    'button_text': buttonText,
+                    'page_section': this.closest('section')?.id || 'hero'
+                });
+            });
+        });
+
+        // Track external link clicks
+        document.querySelectorAll('a[target="_blank"]').forEach(link => {
+            link.addEventListener('click', function() {
+                gtag('event', 'external_link_click', {
+                    'link_url': this.href,
+                    'link_text': this.textContent.trim(),
+                    'link_category': this.classList.contains('project-link') ? 'project' : 
+                                     this.classList.contains('social-link') ? 'social' : 'other'
+                });
+            });
+        });
+
+        // Track section scrolls (when user reaches a section)
+        const sections = document.querySelectorAll('section[id]');
+        const sectionObserverOptions = {
+            threshold: 0.3,
+            rootMargin: '0px'
+        };
+
+        const sectionObserver = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    gtag('event', 'section_view', {
+                        'section_name': entry.target.id
+                    });
+                    // Only track once per session
+                    sectionObserver.unobserve(entry.target);
+                }
+            });
+        }, sectionObserverOptions);
+
+        sections.forEach(section => sectionObserver.observe(section));
+
+        // Track email mailto clicks
+        document.querySelectorAll('a[href^="mailto:"]').forEach(link => {
+            link.addEventListener('click', function() {
+                gtag('event', 'email_click', {
+                    'email': this.href.replace('mailto:', '')
+                });
+            });
+        });
+
+        // Track theme toggle
         const themeToggle = document.getElementById('themeToggle');
+        themeToggle.addEventListener('click', function() {
+            const newTheme = document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+            gtag('event', 'theme_toggle', {
+                'theme': newTheme
+            });
+        });
+
+        // Track scroll depth
+        let maxScroll = 0;
+        window.addEventListener('scroll', function() {
+            const scrollPercent = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+            if (scrollPercent > maxScroll) {
+                maxScroll = scrollPercent;
+                
+                // Send event at 25%, 50%, 75%, and 100%
+                if (maxScroll >= 25 && maxScroll < 30) {
+                    gtag('event', 'scroll_depth', { 'depth': '25%' });
+                } else if (maxScroll >= 50 && maxScroll < 55) {
+                    gtag('event', 'scroll_depth', { 'depth': '50%' });
+                } else if (maxScroll >= 75 && maxScroll < 80) {
+                    gtag('event', 'scroll_depth', { 'depth': '75%' });
+                } else if (maxScroll >= 90) {
+                    gtag('event', 'scroll_depth', { 'depth': '100%' });
+                }
+            }
+        });
+
+        // ===== UI Functionality =====
+        
+        // Theme Toggle
         const html = document.documentElement;
 
         // Load saved theme from localStorage

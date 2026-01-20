@@ -1,0 +1,20 @@
+User-agent: *
+Allow: /
+Allow: /index.html
+
+# Disallow crawling of specific files/directories if needed
+# Disallow: /admin/
+# Disallow: /private/
+
+# Sitemaps
+Sitemap: https://mayank-khare.github.io/sitemap.xml
+
+# Crawl delay to be respectful
+Crawl-delay: 1
+
+# Allow all search engines
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
